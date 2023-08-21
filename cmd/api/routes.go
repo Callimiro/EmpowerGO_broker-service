@@ -8,23 +8,32 @@ import (
 	"github.com/go-chi/cors"
 )
 
-func routes() http.Handler {
+func (app *Config) routes() http.Handler {
 
 	mux := chi.NewRouter()
 
-	// Create a new CORS handler
-	corsHandler := cors.New(cors.Options{
+	mux.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"http://*", "https://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
 		AllowedHeaders:   []string{"Content-Type", "Accept", "Authorization", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: true,
 		MaxAge:           300,
-	})
+	},
+	))
+	// Create a new CORS handler
+	/* 	corsHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://*", "https://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
+		AllowedHeaders:   []string{"Content-Type", "Accept", "Authorization", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}) */
 
 	// Apply the CORS middleware to the router
 	mux.Use(middleware.Heartbeat("/ping"))
-	mux.Use(corsHandler.Handler)
+	//mux.Use(corsHandler.Handler)
 
 	// Add your routes here
 	// Example: mux.Get("/", myHandlerFunc)
