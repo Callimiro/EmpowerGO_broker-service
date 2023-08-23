@@ -37,6 +37,6 @@ func (app *Config) routes() http.Handler {
 
 	// Add your routes here
 	// Example: mux.Get("/", myHandlerFunc)
-
+	mux.Post("/", app.Broker)
 	return mux
 }
